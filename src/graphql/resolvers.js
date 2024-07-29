@@ -5,6 +5,9 @@ export const resolvers = {
   },
   Mutation: {
     createTask: (_, { title, description }) => {
+      if (!title || !description) {
+        throw new Error("Title and description are required")
+      }
       const task = {
         id: tasks.length,
         title,
@@ -15,6 +18,12 @@ export const resolvers = {
       return task
     },
     updateTask: (_, { id, description, completed }) => {
+      if (!id) {
+        throw new Error("Id is required")
+      }
+      if (!completed) {
+        throw new Error("Completed is required")
+      }
       const task = tasks.find((task) => task.id === Number(id))
       if (!task) {
         throw new Error("Task not found")
@@ -26,6 +35,9 @@ export const resolvers = {
       return task
     },
     deleteTask: (_, { id }) => {
+      if (!id) {
+        throw new Error("Id is required")
+      }
       const task = tasks.find((task) => task.id === Number(id))
       if (!task) {
         throw new Error("Task not found")
